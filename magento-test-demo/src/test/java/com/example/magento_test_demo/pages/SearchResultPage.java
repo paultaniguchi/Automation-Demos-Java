@@ -1,16 +1,24 @@
 package com.example.magento_test_demo.pages;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.LoadableComponent;
 import org.testng.Assert;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchResultPage extends LoadableComponent<SearchResultPage>{
 
 	public WebDriver driver;
+	// page factory for product tile in search results
+	@FindBy(css = "img.product-image-photo")
+	private List<WebElement> productTilesList;
 	
 	/**
 	 * constructor
@@ -18,6 +26,7 @@ public class SearchResultPage extends LoadableComponent<SearchResultPage>{
 	public SearchResultPage(WebDriver driverFromTest) 
 	{
 		driver = driverFromTest;
+		PageFactory.initElements(driver, this);
 	}
 	
 	@Override
@@ -54,5 +63,21 @@ public class SearchResultPage extends LoadableComponent<SearchResultPage>{
 		return driver.getTitle();
 	}
 	
+	/*
+	 *  Get the list of product names from the search results
+	 *  returns: list of product names
+	 */
+	public List<String> getProductNameList()
+	{
+		// List of product names
+		List<String> productNamesList = new ArrayList<String>();
+		
+		// Go thru each tile on search results page
+		for (WebElement product : productTilesList)
+		{
+			productNamesList.add(product.getAttribute("alt"));
+		}
 	
+		return productNamesList;
+	}
 }

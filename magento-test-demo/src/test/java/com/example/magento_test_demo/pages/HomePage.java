@@ -18,10 +18,9 @@ import com.example.magento_test_demo.pages.SearchResultPage;
 public class HomePage extends LoadableComponent<HomePage>
 {
 	public WebDriver driver;
-	// page factory for the tiles
-	@FindBy(css = "input#search")
-	// @FindBy(how=How.CSS, using="input#search")	
-	WebElement searchBox;
+	// page factory for the search box
+	@FindBy(css = "input#search")	
+	private WebElement searchBox;
 	
 	/**
 	 * constructor
