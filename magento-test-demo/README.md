@@ -4,6 +4,7 @@ Automated test for the e-commerce site at https://magento.softwaretestingboard.c
 
 ## Dependencies
 - JDK 17
+- Maven
 - TestNG
 - Selenium
 
@@ -15,7 +16,7 @@ src/test/java/com/example/magento_test_demo
 ```
 ### Page Object Models
 ```
-src/test/java/com/example/magento_test_demo/pages - Page Object Models
+src/test/java/com/example/magento_test_demo/pages
    HomePage.java
    SearchResultPage.java
 ```
