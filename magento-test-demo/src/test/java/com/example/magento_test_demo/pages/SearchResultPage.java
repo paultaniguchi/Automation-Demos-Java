@@ -13,15 +13,24 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Page object model for search result page:
+ * https://magento.softwaretestingboard.com/catalogsearch/result/?q=[product being searched]
+ * 
+ * Author: Paul Taniguchi
+ */
+
 public class SearchResultPage extends LoadableComponent<SearchResultPage>{
 
 	public WebDriver driver;
-	// page factory for product tile in search results
-	@FindBy(css = "img.product-image-photo")
+	// page factory for product links in search results
+	// use strong as parent to avoid picking up hidden a in the side Compare Product
+	// on  Firefox
+	@FindBy(css = "strong.product.name.product-item-name>a.product-item-link")
 	private List<WebElement> productTilesList;
 	
 	/**
-	 * constructor
+	 * constructor using page factory
 	 */
 	public SearchResultPage(WebDriver driverFromTest) 
 	{
@@ -32,17 +41,17 @@ public class SearchResultPage extends LoadableComponent<SearchResultPage>{
 	@Override
 	protected void load() 
 	{
+		// load is ok to be empty
 	}
 	
 	@Override
-	protected void isLoaded()
+	protected void isLoaded() throws Error
 	/*
 	 *  check page title to see if this is correct page
 	 */
 	{
 		boolean isTitleCorrect;
 		
-		// Assert.assertTrue(getTitle().contains("Search results"));
 		// wait until Search Results page load 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		
@@ -55,27 +64,29 @@ public class SearchResultPage extends LoadableComponent<SearchResultPage>{
 			isTitleCorrect = false;
 		}
 		
-		Assert.assertTrue(isTitleCorrect,"Incorrect page");		
+		Assert.assertTrue(isTitleCorrect,"Incorrect Search Results page");		
 	}
 	
+	/*
+	 * getter for page title
+	 */
 	public String getTitle() 
 	{
 		return driver.getTitle();
 	}
 	
 	/*
-	 *  Get the list of product names from the search results
-	 *  returns: list of product names
+	 *  Returns the list of product names from the 1st page of search results
 	 */
 	public List<String> getProductNameList()
 	{
 		// List of product names
 		List<String> productNamesList = new ArrayList<String>();
 		
-		// Go thru each tile on search results page
+		// Go thru each tile on first search results page to get prod name
 		for (WebElement product : productTilesList)
 		{
-			productNamesList.add(product.getAttribute("alt"));
+			productNamesList.add(product.getText());
 		}
 	
 		return productNamesList;

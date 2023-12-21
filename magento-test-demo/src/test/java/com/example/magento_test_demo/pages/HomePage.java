@@ -11,9 +11,11 @@ import org.openqa.selenium.support.ui.LoadableComponent;
 import com.example.magento_test_demo.pages.SearchResultPage;
 
 
-/**
- * Page Object Model for https://magento.softwaretestingboard.com
+/*
+ * Page Object Model for home page 
+ * https://magento.softwaretestingboard.com
  *
+ * Author: Paul Taniguchi
  */
 public class HomePage extends LoadableComponent<HomePage>
 {
@@ -37,17 +39,16 @@ public class HomePage extends LoadableComponent<HomePage>
 	 * Load the Magento home page
 	 */
 	{
-		System.out.println("load");
 		driver.get("https://magento.softwaretestingboard.com");
 	}
 	
 	@Override
 	protected void isLoaded() throws Error
 	/*
-	 * check if it's the correct page
+	 * check page title to test if it's the correct page
 	 */
 	{
-		Assert.assertEquals(getTitle(),"Home Page" );
+		Assert.assertEquals(getTitle(),"Home Page","Home Page not loaded");
 	}
 	
 	public String getTitle() 

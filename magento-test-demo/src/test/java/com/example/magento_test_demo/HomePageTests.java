@@ -3,6 +3,7 @@ package com.example.magento_test_demo;
 import org.testng.annotations.Test;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.DataProvider;
 import org.testng.Assert;
 
 import java.time.Duration;
@@ -15,13 +16,15 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.List;
 import java.util.ArrayList;
 
-/**
- * Tests for the https://magento.softwaretestingboard.com home page
+/*
+ * Tests for the https://magento.softwaretestingboard.com site
+ * 
+ * Author: Paul Taniguchi
  */
 public class HomePageTests 
 {
 	/**
-	 *  set up selenium
+	 *  set up Firefox driver for now 
 	 */
 	
 	public WebDriver driver = new FirefoxDriver();
@@ -31,61 +34,57 @@ public class HomePageTests
 	{
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-		// driver.get("https://magento.softwaretestingboard.com");
 	}
-
-    /**
-     * Test that the HomePage title is Home Page
-     */
-	@Test(enabled=false)
-    public void testHomePageTitle()
-    {
-		HomePage home_page = new HomePage(driver).get();
-		
-		System.out.println("assert test");
-        Assert.assertEquals(home_page.getTitle(),"Home Page" );
-    }
 	
+	/*
+	 *  data provider for the testSearchReturnsProducts method
+	 *  Object array of the form:
+	 *  (search product to be entered into search bar),(list of products 
+	 *  expected to be returned for the search term) 
+	 */
+	@DataProvider(name = "search")
+	public Object[][] dataForSearchTest()
+	{
+		return new Object[][]
+			{
+				{"watch",List.of("Didi Sport Watch", "Dash Digital Watch",
+					"Clamber Watch","Bolo Sport Watch","Luma Analog Watch",
+					"Cruise Dual Analog Watch",	"Summit Watch",
+					"Endurance Watch","Aim Analog Watch")},
+				{"bottle",List.of("Affirm Water Bottle","Driven Backpack",
+						"Savvy Shoulder Tote","Compete Track Tote",
+						"Voyage Yoga Bag","Crown Summit Backpack")}
+			};
+	}
 	
-	@Test
-	public void testSearchReturnsProducts()
+	/*
+	 *  test for the products on 1st pg of search results for the searchTerm
+	 *  Data driven test using data provider dataForSearchTest 
+	 */
+	@Test(dataProvider = "search")
+	public void testSearchReturnsProducts(String searchTerm, List<String> expProdNamesList)
 	{
 		// actual product names
-		List<String> watchProdNamesList = new ArrayList<String>();
-		// expected product names
-		// TO DO - this is ok for now, but List will prolly need to mutable
-		// when parameters are added to this test
-		List<String> expWatchProdNamesList = List.of("Didi Sport Watch", "Dash Digital Watch",
-				"Clamber Watch","Bolo Sport Watch","Luma Analog Watch","Cruise Dual Analog Watch",
-				"Summit Watch","Endurance Watch","Aim Analog Watch Fail");
+		List<String> prodNamesList = new ArrayList<String>();
 		
 		HomePage homePage = new HomePage(driver).get();
-		SearchResultPage watchSearchResult;
+		SearchResultPage prodSearchResult;
 		
-		// search for watch
-		watchSearchResult = homePage.submitTextInSearch("watch");
-		System.out.println(watchSearchResult.getTitle());
+		// search for searchTerm product
+		prodSearchResult = homePage.submitTextInSearch(searchTerm);
 		
-		// get the watches from the search results
-		watchProdNamesList = watchSearchResult.getProductNameList();
-		
-		// take a look at the list
-		for (String watch : watchProdNamesList)
-		{
-			System.out.println(watch);
-		}
-		
-		// placeholder assert
-		Assert.assertEquals(watchProdNamesList, expWatchProdNamesList);
+		// get the products from the search results
+		prodNamesList = prodSearchResult.getProductNameList();
+				
+		Assert.assertEquals(prodNamesList, expProdNamesList);
 	}
 	
-	/**
-	 *  Tear down
+	/*
+	 *  Tear down 
 	 */
 	@AfterClass
 	public void TearDown() 
 	{
-		System.out.println("tear down");
 		driver.quit();
 	}
 }
