@@ -13,7 +13,7 @@ Automated test for the e-commerce site at https://magento.softwaretestingboard.c
 - Selenium
 
 ## Files
-### Tests1
+### Tests
 ```
 src/test/java/com/example/magento_test_demo 
    HomePageTests.java  
