@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="magento-suite">
-  <test thread-count="5" name="HomePageTests">
+  <test thread-count="5" name="FunctionalTests">
     <classes>
       <class name="com.example.magento_test_demo.HomePageTests"/>
+      <class name="com.example.magento_test_demo.LoginPageTests"/>
     </classes>
-  </test> <!-- HomePageTests -->
+  </test> <!-- FunctionalTests -->
 </suite> <!-- magento-suite -->

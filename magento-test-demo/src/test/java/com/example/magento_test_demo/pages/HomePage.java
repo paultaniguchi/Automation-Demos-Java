@@ -1,14 +1,19 @@
 package com.example.magento_test_demo.pages;
 
 import org.testng.Assert;
+import java.time.Duration;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.LoadableComponent;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.example.magento_test_demo.pages.SearchResultPage;
+import com.example.magento_test_demo.pages.LoginPage;
 
 
 /*
@@ -23,6 +28,12 @@ public class HomePage extends LoadableComponent<HomePage>
 	// page factory for the search box
 	@FindBy(css = "input#search")	
 	private WebElement searchBox;
+	// page factory for the Sign In link
+	@FindBy(css = "li.authorization-link")
+	private WebElement signInLink;
+	// page factory for the currently signed in user
+	@FindBy(css = "span.logged-in")
+	private WebElement loggedInUser;
 	
 	/**
 	 * constructor
@@ -69,5 +80,27 @@ public class HomePage extends LoadableComponent<HomePage>
 		searchBox.submit();
 		
 		return new SearchResultPage(driver).get();
+	}
+	
+	/*
+	 * 
+	 *  go to the Login page
+	 */
+	public LoginPage goToLoginPage()
+	{
+		signInLink.click();
+		return new LoginPage(driver).get();
+	}
+	
+	/*
+	 *  get signed in users
+	 */
+	public String getCurrentUser(String expTextCurrentUser)
+	{
+		// wait for user to be logged in
+		Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.textToBePresentInElement(loggedInUser, expTextCurrentUser));
+		
+		return loggedInUser.getText();
 	}
 }
