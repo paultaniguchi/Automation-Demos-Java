@@ -24,6 +24,28 @@ public class LoginPageTests
 	// create driver out here so all methods can access it
 	public WebDriver driver;
 	
+	
+	/*
+	 * Retrieves the Magento username stored in the env variable
+	 * Returns: String
+	 */
+	private String getLoginUsername()
+	{
+		return System.getenv("MagentoUsername");
+	}
+	
+	/*
+	 * Retrieves the Magento password stored in the env variable
+	 * Returns: char array
+	 * keep password in char array instead of String
+	 * https://stackoverflow.com/questions/43174598/password-security-in-java-converting-char-to-string
+	 * 
+	 */
+	private char[] getLoginPassword()
+	{
+		return System.getenv("MagentoPassword").toCharArray();
+	}
+	
 	@BeforeClass
 	public void setUp()
 	{
@@ -31,6 +53,9 @@ public class LoginPageTests
 		driver = new FirefoxDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		
+		// get credentials from env variable
+		
 	}
 	
 	@Test
@@ -45,7 +70,7 @@ public class LoginPageTests
 		testUserLoginPage = homePage.goToLoginPage();
 		
 		// enter credentials
-		testUserLoginPage.enterCredentials("REDACTED","REDACTED");
+		testUserLoginPage.enterCredentials(getLoginUsername(), getLoginPassword());
 		
 		// check correct user is in upper right corner
 		Assert.assertEquals(homePage.getCurrentUser(expCurrentUserText), expCurrentUserText);

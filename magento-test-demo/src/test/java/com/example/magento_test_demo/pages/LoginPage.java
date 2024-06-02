@@ -62,8 +62,9 @@ public class LoginPage extends LoadableComponent<LoginPage>
 	/*
 	 * method for entering username / password into Login fields
 	 * 
+	 * 
 	 */
-	public void enterCredentials(String username, String password)
+	public void enterCredentials(String username, char[] password)
 	{
 		// clear fields
 		userNameField.clear();
@@ -71,7 +72,7 @@ public class LoginPage extends LoadableComponent<LoginPage>
 		
 		// enter creds into fields
 		userNameField.sendKeys(username);
-		userPassField.sendKeys(password);
+		userPassField.sendKeys(String.valueOf(password));
 		
 		loginButton.click();
 	}
