@@ -93,13 +93,23 @@ public class HomePage extends LoadableComponent<HomePage>
 	}
 	
 	/*
-	 *  get signed in users
+	 *  get signed in user from the Welcome message
+	 *  returns username in the Home Page welcome message
+	 *  otherwise it returns empty string
 	 */
 	public String getCurrentUser(String expTextCurrentUser)
 	{
 		// wait for user to be logged in
-		Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		wait.until(ExpectedConditions.textToBePresentInElement(loggedInUser, expTextCurrentUser));
+		try 
+		{
+			Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+			wait.until(ExpectedConditions.textToBePresentInElement(loggedInUser, expTextCurrentUser));
+		}
+		// return empty string if time out before welcome message appears
+		catch (org.openqa.selenium.TimeoutException e)
+		{
+			return "";
+		}
 		
 		return loggedInUser.getText();
 	}

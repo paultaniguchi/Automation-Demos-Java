@@ -54,8 +54,6 @@ public class LoginPageTests
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 		
-		// get credentials from env variable
-		
 	}
 	
 	@Test
