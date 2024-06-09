@@ -23,15 +23,24 @@ public class LoginPageTests
 	
 	// create driver out here so all methods can access it
 	public WebDriver driver;
-	
-	
+		
 	/*
 	 * Retrieves the Magento username stored in the env variable
 	 * Returns: String
 	 */
 	private String getLoginUsername()
 	{
-		return System.getenv("MagentoUsername");
+		String username = System.getenv("MagentoUsername");
+
+		// throw exception if username is not set in env variable
+		if (username != null)
+		{
+			return username;
+		}
+		else
+		{
+			throw new RuntimeException("MagentoUsername env variable is missing");
+		}
 	}
 	
 	/*
@@ -43,7 +52,15 @@ public class LoginPageTests
 	 */
 	private char[] getLoginPassword()
 	{
-		return System.getenv("MagentoPassword").toCharArray();
+		// throw exception if password is not set in the env variable
+		try 
+		{
+			return System.getenv("MagentoPassword").toCharArray();
+		}
+		catch(NullPointerException e)
+		{
+			throw new RuntimeException("MagentoPassword env variable is missing");
+		}
 	}
 	
 	@BeforeClass
