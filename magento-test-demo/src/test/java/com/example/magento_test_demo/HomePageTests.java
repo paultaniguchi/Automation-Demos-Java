@@ -13,6 +13,9 @@ import com.example.magento_test_demo.pages.SearchResultPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,6 +26,8 @@ import java.util.ArrayList;
  */
 public class HomePageTests 
 {
+	private static Logger logger = LoggerFactory.getLogger(HomePageTests.class);	
+	
 	// create driver out here so all methods can access it
 	public WebDriver driver;
 	
@@ -63,6 +68,8 @@ public class HomePageTests
 	@Test(dataProvider = "search")
 	public void testSearchReturnsProducts(String searchTerm, List<String> expProdNamesList)
 	{
+		logger.info("Executing Search test for {}", searchTerm);
+		
 		// actual product names
 		List<String> prodNamesList = new ArrayList<String>();
 		

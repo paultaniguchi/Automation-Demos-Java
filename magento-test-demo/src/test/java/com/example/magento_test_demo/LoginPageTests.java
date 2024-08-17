@@ -9,8 +9,12 @@ import java.time.Duration;
 
 import com.example.magento_test_demo.pages.HomePage;
 import com.example.magento_test_demo.pages.LoginPage;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /*
  * Tests for the https://magento.softwaretestingboard.com site
@@ -20,6 +24,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 
 public class LoginPageTests 
 {
+	private static Logger logger = LoggerFactory.getLogger(LoginPageTests.class);
 	
 	// create driver out here so all methods can access it
 	public WebDriver driver;
@@ -75,8 +80,13 @@ public class LoginPageTests
 	
 	@Test
 	public void testLoginSuccessfully() 
+	/*
+	 * Verify that a valid user can log into magento
+	 */
 	{
 		String expCurrentUserText = "Welcome, Jacko Testbuyer!";
+		
+		logger.info("Executing Valid user login test");
 		
 		HomePage homePage = new HomePage(driver).get();
 		LoginPage testUserLoginPage;
