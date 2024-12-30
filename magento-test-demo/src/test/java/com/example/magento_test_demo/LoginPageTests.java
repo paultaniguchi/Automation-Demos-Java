@@ -31,6 +31,7 @@ public class LoginPageTests
 		
 	/*
 	 * Retrieves the Magento username stored in the env variable
+	 * Note to self: env variables are set in the Eclipse Run Configurations for testng.xml 
 	 * Returns: String
 	 */
 	private String getLoginUsername()
