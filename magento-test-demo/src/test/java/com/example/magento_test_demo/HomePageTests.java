@@ -1,12 +1,9 @@
 package com.example.magento_test_demo;
 
 import org.testng.annotations.Test;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.AfterClass;
+
 import org.testng.annotations.DataProvider;
 import org.testng.Assert;
-
-import java.time.Duration;
 
 import com.example.magento_test_demo.SetUpTearDown;
 import com.example.magento_test_demo.pages.HomePage;
