@@ -3,8 +3,9 @@
 <suite name="magento-suite">
   <test thread-count="5" name="FunctionalTests">
     <classes>
+      <class name="com.example.magento_test_demo.SetUpTearDown"/>
+      <class name="com.example.magento_test_demo.LoginPageTests"/>     
       <class name="com.example.magento_test_demo.HomePageTests"/>
-      <class name="com.example.magento_test_demo.LoginPageTests"/>
     </classes>
   </test> <!-- FunctionalTests -->
 </suite> <!-- magento-suite -->

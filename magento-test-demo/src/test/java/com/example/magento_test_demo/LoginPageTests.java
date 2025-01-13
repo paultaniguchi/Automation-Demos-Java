@@ -7,6 +7,7 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
+import com.example.magento_test_demo.SetUpTearDown;
 import com.example.magento_test_demo.pages.HomePage;
 import com.example.magento_test_demo.pages.LoginPage;
 
@@ -18,6 +19,8 @@ import org.slf4j.LoggerFactory;
 
 /*
  * Tests for the https://magento.softwaretestingboard.com site
+ * Verify that the test user can be logged into the site
+ * Prerequisite: The test user must have been previously provisioned on the site.
  * 
  * Author: Paul Taniguchi
  */
@@ -25,9 +28,6 @@ import org.slf4j.LoggerFactory;
 public class LoginPageTests 
 {
 	private static Logger logger = LoggerFactory.getLogger(LoginPageTests.class);
-	
-	// create driver out here so all methods can access it
-	public WebDriver driver;
 		
 	/*
 	 * Retrieves the Magento username stored in the env variable
@@ -69,16 +69,6 @@ public class LoginPageTests
 		}
 	}
 	
-	@BeforeClass
-	public void setUp()
-	{
-		// set driver to Firefox in here to avoid blank browser while test is running
-		driver = new FirefoxDriver();
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-		
-	}
-	
 	@Test
 	public void testLoginSuccessfully() 
 	/*
@@ -89,7 +79,7 @@ public class LoginPageTests
 		
 		logger.info("Executing Valid user login test");
 		
-		HomePage homePage = new HomePage(driver).get();
+		HomePage homePage = new HomePage(SetUpTearDown.driver).get();
 		LoginPage testUserLoginPage;
 		
 		// Go to Login page
@@ -100,15 +90,6 @@ public class LoginPageTests
 		
 		// check correct user is in upper right corner
 		Assert.assertEquals(homePage.getCurrentUser(expCurrentUserText), expCurrentUserText);
-	}
-	
-	/*
-	 *  Tear down 
-	 */
-	@AfterClass
-	public void tearDown() 
-	{
-		driver.quit();
 	}
 
 }

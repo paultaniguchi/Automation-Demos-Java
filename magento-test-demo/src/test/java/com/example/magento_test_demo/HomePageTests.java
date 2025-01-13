@@ -8,8 +8,10 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
+import com.example.magento_test_demo.SetUpTearDown;
 import com.example.magento_test_demo.pages.HomePage;
 import com.example.magento_test_demo.pages.SearchResultPage;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
@@ -20,25 +22,15 @@ import java.util.List;
 import java.util.ArrayList;
 
 /*
- * Tests for the https://magento.softwaretestingboard.com site
+ * Search Results Tests for the https://magento.softwaretestingboard.com site
+ * Use Home page search bar to search for product & verify that the 1st page
+ * of results has the correct items
  * 
  * Author: Paul Taniguchi
  */
 public class HomePageTests 
 {
 	private static Logger logger = LoggerFactory.getLogger(HomePageTests.class);	
-	
-	// create driver out here so all methods can access it
-	public WebDriver driver;
-	
-	@BeforeClass
-	public void setUp()
-	{
-		// set driver to Firefox in here to avoid blank browser while test is running
-		driver = new FirefoxDriver();
-		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-	}
 	
 	/*
 	 *  data provider for the testSearchReturnsProducts method
@@ -73,7 +65,8 @@ public class HomePageTests
 		// actual product names
 		List<String> prodNamesList = new ArrayList<String>();
 		
-		HomePage homePage = new HomePage(driver).get();
+		//HomePage homePage = new HomePage(driver).get();
+		HomePage homePage = new HomePage(SetUpTearDown.driver).get();		
 		SearchResultPage prodSearchResult;
 		
 		// search for searchTerm product
@@ -85,13 +78,4 @@ public class HomePageTests
 		Assert.assertEquals(prodNamesList, expProdNamesList);
 	}
 	
-	/*
-	 *  Tear down 
-	 */
-	@AfterClass
-	public void tearDown() 
-	{
-		driver.quit();
-	}
 }
-
